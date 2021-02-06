@@ -18,6 +18,10 @@ from django.urls import path
 from authentication.views import home, animation, index, register, logout_view
 from profilejournal.views import JournalPageView, AddAssignmentView, AssignmentDetailView, LessonAssignmentView, ActivityAssignmentView, QuizAssignmentView, AssessmentAssignmentView, CompletedAssignmentView, DeleteAssignmentView, AddReflectionView
 from blog import views
+from django.conf.urls import url
+from django.views.static import serve 
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('', animation),
@@ -45,4 +49,4 @@ urlpatterns = [
     path('article/<int:id>/', views.article, name="article"),
     path('upvote/<int:id>/', views.up_vote, name="upvote"),
     path('admin/', admin.site.urls),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
