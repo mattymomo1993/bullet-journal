@@ -1,0 +1,384 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+     <link rel="stylesheet" href="https://unpkg.com/papercss@1.8.2/dist/paper.min.css">
+
+    <title>Journal</title>
+  </head>
+
+  <style>
+    body {
+      background-color: #F5FFFA;
+    }
+    .tables_container {
+      width: 50vw;
+    }
+    .container {
+      border: 1px solid black;
+    }
+    .profile_container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .reflection_container {
+      margin-top: 10px;
+    }
+    .reflection_buttons {
+      display: flex;
+    }
+    .reflection_buttons a {
+      text-align: center;
+      width: 200px;
+    }
+    .row {
+      display: flex;
+    }
+    .first_col {
+      width: 45%;
+    }
+    .second_col {
+      width: 55%;
+    }
+    .profile_buttons {
+      display: flex;
+    }
+    .collapsible {
+      width: 28rem;
+    }
+    .completed_tasks td {
+     text-decoration: line-through;
+    }
+    .navbar_box {
+      display: flex;
+      justify-content: center;
+    }
+    .navbar_box a {
+      text-align: center;
+      width: 150px;
+    }
+    td a {
+      text-align: center;
+      width: 100px;
+      height: 55px;
+    }
+    .card_box {
+      position: relative;
+      border-radius: 20px;
+      background: linear-gradient(135deg, silver, white)
+    }
+    .card_img {
+     position: absolute;
+     bottom: 0;
+     left: 50%;
+     transform: translateX(-50%);
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     align-items: center;
+     height: 296px;
+     width: 555px;
+     background: linear-gradient(135deg, silver, white);
+     border-radius: 20px;
+     transition: 0.5s;
+    }
+    .card:hover .card_img{
+      left: 175%;
+    }
+    .card_img h2 {
+      color: black
+    }
+    .dark_mode {
+      background-color: #121212;
+      color: white;
+    }
+    .dark_header {
+      color: black;
+    }
+    .text_white {
+      color: white !important;
+    }
+    tr, th, td {
+      font-size: 20px;
+    }
+    .skew_container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .container_box {
+      position: relative;
+      max-width: 450px;
+      transform: skewY(-20deg);
+    }
+    .container_box .imgBx{
+      position: relative;
+      width: 100%;
+      height: 180px;
+      transform-origin: bottom;
+      transform: skewX(45deg);
+    }
+    .container_box .imgBx h1 {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      max-width: 100%;
+      transition: 0.5s;
+    }
+    .container_box .imgBx:hover h1:nth-child(3) {
+      transform: translate(100px, -100px);
+    } 
+    .container_box .imgBx:hover h1:nth-child(2) {
+      transform: translate(50px, -50px);
+      opacity: 0.5;
+    } 
+     .container_box .imgBx:hover h1:nth-child(1) {
+      transform: translate(0px, -0px);
+      opacity: 0.1;
+    } 
+    .container_box h2 {
+      position: relative;
+    }
+    .container_box .skew {
+      transform-origin: top;
+      transform: skewX(45deg);
+    }
+    .container_box .skew h3 {
+      position: relative;
+      padding: 10px;
+      display: inline-block;
+      background: transparent;
+      transform-origin: top;
+      transform: skewX(-45deg);
+    }
+    .container_box .skew p {
+      width: 75%;
+      text-align: center;
+    }
+    .hide_skew {
+     color: #F5FFFA !important;
+    }
+
+    .hide_skew p {
+      background-color: gray;
+    }
+    .update_button:hover {
+      transition-delay: .2s;
+      color: black;
+      box-shadow: 0 0 10px #0f0,
+      0 0 30px #0f0,
+      0 0 50px #0f0;
+    }
+  </style>
+
+  <body>  
+  <div class="">
+    <div class="row">
+      <div class="col first_col">
+
+    
+          <div class="card card_box user_card" style="width: 28em; height: 15rem">
+            <div class="card-body card_body_contain">
+
+          <div class="navbar_box">
+              <a href="/home" class="paper-btn btn-info">Home</a>
+              {% comment %} <a href="{% url 'blog' %}" class="paper-btn btn-info">Blog</a> {% endcomment %}
+              <a href="{% url 'logout' %}" class="paper-btn btn-info">Logout</a>
+          </div>
+
+              <div class='profile_container'>
+                  <h3 id="motivation_header">You Can Do It!</h3>
+                  
+                  <div class="profile_buttons">
+                    <a href="/add_assignment/" class="paper-btn btn-secondary">Add Assignment</a>
+                    <a href="/add_reflection/" class="paper-btn btn-secondary">Add Reflection</a>
+                    <a class="paper-btn btn-secondary" id="change_me">Dark Mode</a>
+                  </div>
+              </div>
+
+              <div class='card_img'>
+                <h2>{{user.username}}'s Journal</h2> 
+                <h4 id='assignment_header'>Assignments Created: {{count}}</h4>
+              </div>
+
+            </div>
+          </div>
+          <br>
+          
+
+          {% for post in reflection %}
+          <div class="collapsible">
+            <input id=collapsible{{post.id}} type="checkbox" name="collapsible">
+            <label for=collapsible{{post.id}} id="post_title">{{post.title}}</label>
+            <div class="collapsible-body">
+              <div class="reflection_container">
+                <div class="card" style="width: 26rem;">
+                      <div class="card-body">
+                        {%if post.name_post == True %}
+                        <h4 class="card-title">Morning Reflection</h4>
+                         {%else%}
+                        <h4 class="card-title">Evening Reflection</h4>
+                          {% endif %}
+                        <h5 class="card-subtitle">{{post.submission_time | timesince}} ago</h5>
+                        <p class="card-text">{{post.content}}</p>
+                        <!-- <div class=reflection_buttons>
+                          <a href="" class="paper-btn btn-secondary">Update</a>
+                          <a href="" class="paper-btn btn-danger">Delete</a>
+                        </div> -->
+                      </div> 
+                  </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+
+          <div class="skew_container">
+            <div class="container_box">
+                <!-- <div class="imgBx">
+                  <h1 class="hide_skew">Hi</h1>
+                  <h1 class="hide_skew">Hi</h1>
+                  <h1 class="hide_skew">Hi</h1>
+                </div> -->
+                <h2 class="hide_skew">Accomplish Your Goals</h2>
+                <div class="skew">
+                  <h4 class="hide_skew">"When you succeed at something, your brain releases dopamine, a reward chemical which boosts memory and triggers increased concentration and a desire to repeat the experience"</h4>
+                  <h3 href="#" class="hide_skew">-Apartment Therapy</h3>
+                </div>
+              </div>
+          </div>
+        
+        </div><!--col-->
+        
+
+      <div class="col second_col ">
+         <div class="tables_container">
+            <table class="table table-striped table-info">
+              <thead class="thead-info">
+                <tr>
+                  <th scope="col">Assignment</th>
+                  <th scope="col">Description</th>
+                  <th scope="col">Type</th>
+                  <th scope="col">Time Posted</th>
+                  <th scope="col">Update Ticket</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for assignment in assignments %} 
+                {% if assignment.assignment_type == "New" %}
+                <tr>
+                  <td>{{assignment.title}}</td>
+                  <td>{{assignment.description}}</td>
+                  <td>{{assignment.assignment_type}}</td>
+                  <td>{{assignment.date_filed | timesince}} ago</td>
+                  <td>
+                    <a href="/assignment_detail/{{assignment.id}}/" class="paper-btn btn-info-outline update_button">Update</a>
+                  </td>
+                </tr>
+                {%endif%} 
+                {% endfor %}
+
+                {% for assignment in assignments %} 
+                {% if assignment.assignment_type == "Lesson" %}
+                <tr>
+                  <td>{{assignment.title}}</td>
+                  <td>{{assignment.description}}</td>
+                  <td>{{assignment.assignment_type}}</td>
+                  <td>{{assignment.date_filed | timesince}} ago</td>
+                  <td>
+                      <a href="/assignment_detail/{{assignment.id}}/" class="paper-btn btn-info-outline update_button">Update</a>
+                  </td>
+                </tr>
+                {%endif%} 
+                {% endfor %}
+
+                {% for assignment in assignments %} 
+                {% if assignment.assignment_type == "Activity" %}
+                <tr>
+                  <td>{{assignment.title}}</td>
+                  <td>{{assignment.description}}</td>
+                  <td>{{assignment.assignment_type}}</td>
+                  <td>{{assignment.date_filed | timesince}} ago</td>
+                  <td>
+                    <a href="/assignment_detail/{{assignment.id}}/" class="paper-btn btn-info-outline update_button">Update</a>
+                  </td>
+                </tr>
+                {%endif%} 
+                {% endfor %}
+
+                {% for assignment in assignments %} 
+                {% if assignment.assignment_type == "Quiz" %}
+                <tr>
+                  <td>{{assignment.title}}</td>
+                  <td>{{assignment.description}}</td>
+                  <td>{{assignment.assignment_type}}</td>
+                  <td>{{assignment.date_filed | timesince}} ago</td>
+                  <td>
+                    <a href="/assignment_detail/{{assignment.id}}/" class="paper-btn btn-info-outline update_button">Update</a>
+                  </td>
+                </tr>
+                {%endif%} 
+                {% endfor %}
+
+                {% for assignment in assignments %} 
+                {% if assignment.assignment_type == "Assessment" %}
+                <tr>
+                  <td>{{assignment.title}}</td>
+                  <td>{{assignment.description}}</td>
+                  <td>{{assignment.assignment_type}}</td>
+                  <td>{{assignment.date_filed | timesince}} ago</td>
+                  <td>
+                    <a href="/assignment_detail/{{assignment.id}}/" class="paper-btn btn-info-outline update_button">Update</a>
+                  </td>
+                </tr>
+                {%endif%} 
+                {% endfor %}
+
+                {% for assignment in assignments %} 
+                {% if assignment.assignment_type == "Completed" %}
+                <tr class='completed_tasks'>
+                  <td>{{assignment.title}}</td>
+                  <td>{{assignment.description}}</td>
+                  <td>{{assignment.assignment_type}}</td>
+                  <td>{{assignment.date_filed | timesince}} ago</td>
+                  <td>
+                    <a href="/assignment_detail/{{assignment.id}}/" class="paper-btn btn-info-outline update_button">Update</a>
+                  </td>
+                </tr>
+                {%endif%} 
+                {% endfor %}
+              </tbody>
+            </table>
+          </div><!--Table Container-->
+
+        </div><!--Col-->
+
+
+    </div>
+  </div>
+
+  <script>
+      let mode_button = document.querySelector("#change_me")
+      let assignments_header = document.querySelector("#assignment_header")
+      let motivate_header = document.querySelector("#motivation_header")
+      let post_title = document.querySelector("#post_title")
+      let hide_skew = document.querySelectorAll(".hide_skew")
+
+      mode_button.addEventListener("click", function(){
+        document.body.classList.toggle('dark_mode')
+        assignments_header.classList.toggle('dark_header')
+        motivate_header.classList.toggle('dark_header')
+        post_title.classList.toggle('text_white')
+        hide_skew.classList.toggle('text_white')
+      })
+
+      
+  </script>
+
+  </body>
+</html>

@@ -103,7 +103,7 @@
 <div class="navbar_box">
   {% if user.is_authenticated %} {% csrf_token %}
    <a href="{% url 'journal' %}" class="paper-btn btn-info">Your Journal</a>
-   <a href="{% url 'blog' %}" class="paper-btn btn-info">Blog</a>
+   {% comment %} <a href="{% url 'blog' %}" class="paper-btn btn-info">Blog</a> {% endcomment %}
    <a href="{% url 'logout' %}" class="paper-btn btn-info">Logout</a>
 </div>
 <h2>Hi {{ user|capfirst }} Welcome 🤗 !!!</h2>
