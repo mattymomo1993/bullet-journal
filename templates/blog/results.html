@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% block  content%}
+<style>
+    .container-fluid{
+        display: flex;
+        justify-content: center;
+    }
+    .my-container{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+    }
+    .my-container{
+        padding: 10px;
+    }
+    .submit-btn{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .display-card{
+        width: 20rem; 
+        background-color: #2e3233; 
+        color: #fff;
+    }
+      .display-card a{
+        color: #fff;
+        text-decoration: none;
+        transition: all 0.3s ease-in;
+    }
+    .my-bg{
+         background-color: #2E3233;
+    }
+    .search-input {
+        color: black;
+    }
+    .search_container {
+        width: 100%;
+        margin-top: -20px;
+    }
+    .search-button {
+        width: 100%;
+    }
+    .card-title {
+        text-align: center;
+    }
+    .header_container {
+        height: 200px !important;
+    }
+    .card-image {
+        height: 100px;
+        width: 100px;
+    }
+</style>
+
+<br/>
+{% comment %} <div class="container"> {% endcomment %}
+<div class="contianer-fluid">
+    {% if user.is_authenticated %}
+        <div class="navbar_box">
+            <a href="/home" class="paper-btn btn-info">Home</a>
+            <a href="{% url 'journal' %}" class="paper-btn btn-info">Your Journal</a>
+            <a href="{% url 'blog' %}" class="paper-btn btn-info">Blog</a>
+            <a href="/create_post" class="paper-btn btn-info">Create Post</a>
+            <a href="{% url 'logout' %}" class="paper-btn btn-info">Logout</a>
+        </div>
+    {% else %}
+            <a href="/home" class="paper-btn btn-info">Home</a>
+            <a href="{% url 'blog' %}" class="paper-btn btn-info">Blog</a>
+    {% endif %}
+</div>
+<br>
+
+<div class="container test_container" >
+    <div class="card header_container">
+        <h4 class="card-title" style="color: #000;">Search For Achievements by Tag</h4>
+        <form action="/search">
+            <div class="row flex-middle">
+                <div class="col search_container">
+                    <input class="search-input" type="text" name="tags" id="paperInputs2" placeholder="Search by Tags" style="color: #000; font-size: 18px;">
+                    <button type="submit" class="paper-btn btn-primary search-button" value="Primary">Search</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="container-fluid my-container">
+    <div class="row flex-center">
+        {% for post in results %}
+            <div class="card margin-small display-card">
+                <div class="card-body">
+                    <h4 class="card-title">{{ post.title}}</h4>
+                    <h5 class="card-subtitle">Created by {{ post.author }} {{post.list_date| timesince}} ago</h5>
+                    <p class="card-text">{{post.body|truncatechars:40}}</p>
+                    <hr></a>
+                    <img class="img-card card-image" src="{{post.blog_image.url}}"/>
+                    <br/>
+                    {% comment %} {% if post.author.id  != request.user.id %} {% endcomment %}
+                        <p>Tags: {{post.tags}}</p>
+                        <p><i class="fas fa-hand-spock"></i> Likes: {{post.likes}} </p>
+                        <p>Comments: {{post.comments.count}} </p>
+                        <a class="paper-btn btn-secondary" href="/article/{{post.id}}" >View Post</a>
+                    {% comment %} {% else %} {% endcomment %}
+             
+                    {% comment %} {% endif %} {% endcomment %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

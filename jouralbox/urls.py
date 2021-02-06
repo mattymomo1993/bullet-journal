@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from authentication.views import home, animation, index, register, logout_view
 from profilejournal.views import JournalPageView, AddAssignmentView, AssignmentDetailView, LessonAssignmentView, ActivityAssignmentView, QuizAssignmentView, AssessmentAssignmentView, CompletedAssignmentView, DeleteAssignmentView, AddReflectionView
+from blog import views
 
 urlpatterns = [
     path('', animation),
@@ -35,5 +36,13 @@ urlpatterns = [
     path('completed_assignment/<int:assignment_id>/', CompletedAssignmentView.as_view()),
     path('delete_assignment/<int:assignment_id>/',
          DeleteAssignmentView.as_view()),
+    path('blog/', views.blog_index, name="blog"),
+    path('create_post/', views.create_post, name="create_post"),
+    path('search/', views.search, name="search"),
+    path('edit_post/<int:id>/', views.edit_post, name="edit_post"),
+    path('delete_post/<int:id>/', views.delete_post, name="delete_post"),
+    path('comment/<int:id>/', views.comment, name="comment"),
+    path('article/<int:id>/', views.article, name="article"),
+    path('upvote/<int:id>/', views.up_vote, name="upvote"),
     path('admin/', admin.site.urls),
 ]
