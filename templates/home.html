@@ -109,9 +109,9 @@
 <h2>Hi {{ user|capfirst }} Welcome 🤗 !!!</h2>
 {% else %}
 <div class="navbar_box">
- {% comment %} <a href="{% url 'register' %}" class="paper-btn btn-info"> New User: Sign Up Here!</a>
+ <a href="{% url 'register' %}" class="paper-btn btn-info"> New User: Sign Up Here!</a>
  <a href="{% url 'login' %}" class="paper-btn btn-info">Login</a>
- <a href="{% url 'blog' %}" class="paper-btn btn-info">Check out Blogs</a> {% endcomment %}
+ {% comment %} <a href="{% url 'blog' %}" class="paper-btn btn-info">Check out Blogs</a> {% endcomment %}
 </div>
   <h2> Life, At Your Own Pace 📓 </h2>
   {% comment %} <h3>🥊 READYYYYYYY To Bullet JOURNALLLLLLL 🥊</h3>  {% endcomment %}
