@@ -106,3 +106,13 @@ class DeleteAssignmentView(LoginRequiredMixin, View):
         assignment = Assignments.objects.get(id=assignment_id)
         assignment.delete()
         return HttpResponseRedirect(reverse('journal'))
+
+
+class DeleteReflectionView(LoginRequiredMixin, View):
+    def post(self, request, reflection_id):
+        try:
+            reflection = ReflectionPost.objects.get(id=reflection_id, reflection_user_created=request.user)
+            reflection.delete()
+        except ReflectionPost.DoesNotExist:
+            pass
+        return HttpResponseRedirect(reverse('journal'))

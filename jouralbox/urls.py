@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from authentication.views import home, animation, index, register, logout_view
-from profilejournal.views import JournalPageView, AddAssignmentView, AssignmentDetailView, LessonAssignmentView, ActivityAssignmentView, QuizAssignmentView, AssessmentAssignmentView, CompletedAssignmentView, DeleteAssignmentView, AddReflectionView
+from profilejournal.views import JournalPageView, AddAssignmentView, AssignmentDetailView, LessonAssignmentView, ActivityAssignmentView, QuizAssignmentView, AssessmentAssignmentView, CompletedAssignmentView, DeleteAssignmentView, AddReflectionView, DeleteReflectionView
 from blog import views
 from django.conf.urls import url
 from django.views.static import serve 
@@ -32,16 +32,16 @@ urlpatterns = [
     path('register/', register, name="register"),
     path('logout/', logout_view, name="logout"),
     path('journal/', JournalPageView.as_view(), name='journal'),
-    path('add_assignment/', AddAssignmentView.as_view()),
-    path('add_reflection/', AddReflectionView.as_view()),
-    path('assignment_detail/<int:assignment_id>/', AssignmentDetailView.as_view()),
-    path('lesson_assignment/<int:assignment_id>/', LessonAssignmentView.as_view()),
-    path('activity_assignment/<int:assignment_id>/', ActivityAssignmentView.as_view()),
-    path('quiz_assignment/<int:assignment_id>/', QuizAssignmentView.as_view()),
-    path('assessment_assignment/<int:assignment_id>/', AssessmentAssignmentView.as_view()),
-    path('completed_assignment/<int:assignment_id>/', CompletedAssignmentView.as_view()),
-    path('delete_assignment/<int:assignment_id>/',
-         DeleteAssignmentView.as_view()),
+    path('add_assignment/', AddAssignmentView.as_view(), name='add_assignment'),
+    path('add_reflection/', AddReflectionView.as_view(), name='add_reflection'),
+    path('assignment_detail/<int:assignment_id>/', AssignmentDetailView.as_view(), name='assignment_detail'),
+    path('lesson_assignment/<int:assignment_id>/', LessonAssignmentView.as_view(), name='lesson_assignment'),
+    path('activity_assignment/<int:assignment_id>/', ActivityAssignmentView.as_view(), name='activity_assignment'),
+    path('quiz_assignment/<int:assignment_id>/', QuizAssignmentView.as_view(), name='quiz_assignment'),
+    path('assessment_assignment/<int:assignment_id>/', AssessmentAssignmentView.as_view(), name='assessment_assignment'),
+    path('completed_assignment/<int:assignment_id>/', CompletedAssignmentView.as_view(), name='completed_assignment'),
+    path('delete_assignment/<int:assignment_id>/', DeleteAssignmentView.as_view(), name='delete_assignment'),
+    path('delete_reflection/<int:reflection_id>/', DeleteReflectionView.as_view(), name='delete_reflection'),
     path('blog/', views.blog_index, name="blog"),
     path('create_post/', views.create_post, name="create_post"),
     path('search/', views.search, name="search"),
