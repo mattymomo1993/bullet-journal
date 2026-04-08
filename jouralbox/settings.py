@@ -24,10 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'y_&0%q=+(zfph^-m1o-=1w0pw9qq)$+sw$$=ien!r3%z^2n38x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['bullet-journal-capstone-2021.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['bullet-journal-capstone-2021.herokuapp.com', '127.0.0.1', 'localhost', '*']
 
 
 # Application definition
